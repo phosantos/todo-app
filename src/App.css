@@ -1,38 +1,194 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  list-style: none;
+}
+
+html {
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+:root {
+  --background-1: #181824;
+  --background-2: #25273C;
+  --blue: hsl(220, 98%, 61%);
+  --font-color: hsl(234, 39%, 85%);
+  --font-color-hover: hsl(236, 33%, 92%);
+  --check-and-cross : #2F3146;
+  --options: #5B5D74;
+
+}
+
+body {
+  background-color: var(--background-1);
+}
+
 .App {
-  text-align: center;
+  box-sizing: border-box;
+  padding-top: 60px;
+  max-width: 500px;
+  margin: 0 auto;
+  font-weight: 400; 
+  color: var(--font-color);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.todo-header h1 {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .5rem;
+  margin-bottom: 30px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.todo-header form {
+  max-width: 100%;
+  background-color: var(--background-2);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 4px;
+  box-sizing: border-box; 
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.todo-header input {
+  width: 100%;
+  background-color: transparent;
+  font-size: 1rem;
+  border: none;
+  color: var(--font-color);
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+.todo-header input:focus, .todo-header input:hover {
+  outline: none;
+}
+
+.check {
+  min-width: 20px;
+  height: 20px;
+  border: 2px solid var(--check-and-cross);
+  border-radius: 50%;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  cursor: pointer;
+}
+
+.check svg{
+  display: none;
+}
+
+.check:hover svg{
+  display: initial;
+}
+
+.check:hover {
+  border: 2px solid var(--font-color-hover);
+}
+
+.todo-items {
+  background-color: var(--background-2);
+  border-radius: 4px;
+  margin-top: 20px;
+  height: 50vh;
+  overflow-y: auto;
+}
+
+.todo-item {
   color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 1px solid var(--check-and-cross);
+  font-weight: 400;
 }
 
-.App-link {
-  color: #61dafb;
+.todo-item-wrapper {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.cross {
+  width: 20px;
+  height: 20px;
+  display: none;
+  cursor: pointer;
+}
+
+.todo-item:hover .cross {
+  display: initial;
+}
+
+.todo-item.completed p {
+  text-decoration: line-through;
+  color: var(--options);
+}
+
+.todo-item.completed .check  {
+  border: 2px solid var(--font-color-hover);
+}
+
+.todo-item.completed .check svg {
+  display: initial;
+}
+
+.todo-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+  padding: 1rem;
+  color: var(--options);
+}
+
+.todo-options div {
+  display: flex;
+  gap: 1rem;
+}
+
+.todo-options li {
+  cursor: pointer;
+}
+
+.todo-options li:hover {
+  color: var(--font-color-hover);
+}
+
+.todo-options li.active {
+  color: var(--font-color-hover);
+}
+
+.todo-options .items-left {
+  width: 80px;
+  cursor: default;
+}
+
+.footer {
+  margin-top: 60px;
+}
+
+.footer p {
+  text-align: center;
+  color: var(--options);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--blue);
+  border-radius: 4px;
 }
