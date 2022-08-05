@@ -29,44 +29,43 @@ const TodoTasks = ({ tasks, setTasks, option }) => {
           {...provided.droppableProps}
           ref={provided.innerRef}
         >
-          {tasks &&
-            tasks
-              .filter((task) => {
-                if (option === 'active') return task.active === true;
-                if (option === 'completed') return task.active === false;
-                return task;
-              })
-              .map((task, index) => {
-                return (
-                  <Draggable
-                    key={task.id}
-                    draggableId={task.id.toString()}
-                    index={index}
-                  >
-                    {(provided) => (
-                      <li
-                        className={
-                          !task.active ? 'todo-item completed' : 'todo-item'
-                        }
-                        data-taskid={task.id}
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                      >
-                        <div className="todo-item-wrapper">
-                          <div className="check" onClick={updateTaskStatus}>
-                            <Check />
-                          </div>
-                          <p>{task.content}</p>
+          {tasks
+            .filter((task) => {
+              if (option === 'active') return task.active === true;
+              if (option === 'completed') return task.active === false;
+              return task;
+            })
+            .map((task, index) => {
+              return (
+                <Draggable
+                  key={task.id}
+                  draggableId={task.id.toString()}
+                  index={index}
+                >
+                  {(provided) => (
+                    <li
+                      className={
+                        !task.active ? 'todo-item completed' : 'todo-item'
+                      }
+                      data-taskid={task.id}
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                    >
+                      <div className="todo-item-wrapper">
+                        <div className="check" onClick={updateTaskStatus}>
+                          <Check />
                         </div>
-                        <div className="cross" onClick={deleteTask}>
-                          <Cross />
-                        </div>
-                      </li>
-                    )}
-                  </Draggable>
-                );
-              })}
+                        <p>{task.content}</p>
+                      </div>
+                      <div className="cross" onClick={deleteTask}>
+                        <Cross />
+                      </div>
+                    </li>
+                  )}
+                </Draggable>
+              );
+            })}
           {provided.placeholder}
         </ul>
       )}

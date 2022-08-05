@@ -7,21 +7,19 @@ const TodoHeader = ({ setTasks, lightTheme, setLightTheme }) => {
 
   function createTask(e) {
     e.preventDefault();
+    if (!value) return;
     const newTask = {
       id: Math.floor(Math.random() * 10000),
       content: value,
       active: true,
     };
-    setTasks((tasks) => {
-      if (tasks) {
-        return [...tasks, newTask];
-      } else return [newTask];
-    });
+    setTasks((tasks) => [...tasks, newTask]);
     setValue('');
   }
 
   function changeTheme() {
     setLightTheme(!lightTheme);
+    document.documentElement.classList.toggle('light-theme');
   }
 
   return (

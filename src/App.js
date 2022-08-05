@@ -11,11 +11,21 @@ function App() {
   const [tasks, setTasks] = React.useState(() => {
     if (window.localStorage.getItem('todolist')) {
       return JSON.parse(window.localStorage.getItem('todolist'));
-    } else return null;
+    } else return [];
   });
 
   React.useEffect(() => {
-    document.documentElement.classList.toggle('light-theme');
+    if (window.localStorage.getItem('theme') === 'light-theme') {
+      setLightTheme(true);
+      document.documentElement.classList.add('light-theme');
+    }
+  }, []);
+
+  React.useEffect(() => {
+    window.localStorage.setItem(
+      'theme',
+      lightTheme ? 'light-theme' : 'dark-theme',
+    );
   }, [lightTheme]);
 
   React.useEffect(() => {

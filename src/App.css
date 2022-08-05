@@ -33,13 +33,22 @@ html {
   --font-color-low-opacity: hsl(234, 39%, 85%, .6)
 }
 
+@media (max-width: 700px) {
+  :root {
+    --bg-img: url('./Assets/bg-mobile-dark.jpg');
+  }
+  .light-theme {
+    --bg-img: url('./Assets/bg-mobile-light.jpg');
+  }
+}
+
 body {
   background-color: var(--bg-main);
   background-image: var(--bg-img);
   background-size: contain;
   background-position: 0 0;
   background-repeat: no-repeat;
-  transition: .3s ease-in-out;
+  transition: .4s ease-in-out;
 }
 
 .App {
@@ -82,6 +91,7 @@ body {
   padding: 1rem;
   border-radius: 4px;
   box-sizing: border-box; 
+  box-shadow: 0 5px 25px -12px var(--shadow-todo);
 }
 
 .todo-header input {
@@ -89,7 +99,7 @@ body {
   background-color: transparent;
   font-size: 1rem;
   border: none;
-  color: var(--font-color);
+  color: var(--font-color-hover);
   font-family: 'Josefin Sans', sans-serif;
 }
 
@@ -224,6 +234,12 @@ body {
 .todo-options .items-left {
   width: 80px;
   cursor: default;
+}
+
+@media (max-width: 450px) {
+  .todo-options > li:nth-child(1) {
+    display: none;
+  }
 }
 
 .footer {
