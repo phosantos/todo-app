@@ -1,11 +1,12 @@
 import './App.css';
 import React from 'react';
-import { ReactComponent as Cross } from './Assets/icon-cross.svg';
-import { ReactComponent as Check } from './Assets/icon-check.svg';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { DragDropContext } from 'react-beautiful-dnd';
+import TodoHeader from './Components/TodoHeader';
+import TodoTasks from './Components/TodoTasks';
+import TodoOptions from './Components/TodoOptions';
 
 function App() {
-  const [value, setValue] = React.useState('');
+  const [lightTheme, setLightTheme] = React.useState(false);
   const [option, setOption] = React.useState('all');
   const [tasks, setTasks] = React.useState(() => {
     if (window.localStorage.getItem('todolist')) {
@@ -14,46 +15,12 @@ function App() {
   });
 
   React.useEffect(() => {
+    document.documentElement.classList.toggle('light-theme');
+  }, [lightTheme]);
+
+  React.useEffect(() => {
     window.localStorage.setItem('todolist', JSON.stringify(tasks));
   }, [tasks]);
-
-  function createTask(e) {
-    e.preventDefault();
-    const newTask = {
-      id: Math.floor(Math.random() * 10000),
-      content: value,
-      active: true,
-    };
-    setTasks((tasks) => {
-      if (tasks) {
-        return [...tasks, newTask];
-      } else return [newTask];
-    });
-    setValue('');
-  }
-
-  function updateTaskStatus(e) {
-    const taskIndex = tasks.findIndex((tasks) => {
-      return (
-        tasks.id ===
-        Number(e.currentTarget.parentElement.parentElement.dataset.taskid)
-      );
-    });
-    const newTasksArray = [...tasks];
-    newTasksArray[taskIndex].active = !newTasksArray[taskIndex].active;
-    setTasks(newTasksArray);
-  }
-
-  function deleteTask(e) {
-    const deletedTaskID = Number(e.currentTarget.parentElement.dataset.taskid);
-    setTasks((tasks) => tasks.filter((task) => task.id !== deletedTaskID));
-  }
-
-  function clearCompleted() {
-    setTasks((tasks) => {
-      return tasks.filter((task) => task.active === true);
-    });
-  }
 
   function handleDragEnd(result) {
     const items = [...tasks];
@@ -64,99 +31,26 @@ function App() {
 
   return (
     <div className="App">
-      <header className="todo-header">
-        <h1>Todo</h1>
-        <form onSubmit={createTask}>
-          <div className="check"></div>
-          <input
-            type="text"
-            placeholder="Create a new todo..."
-            value={value}
-            onChange={({ target }) => setValue(target.value)}
-          />
-        </form>
-      </header>
+      <div className="container">
+        <TodoHeader
+          setTasks={setTasks}
+          lightTheme={lightTheme}
+          setLightTheme={setLightTheme}
+        />
+        <DragDropContext onDragEnd={handleDragEnd}>
+          <TodoTasks tasks={tasks} setTasks={setTasks} option={option} />
+        </DragDropContext>
+        <TodoOptions
+          tasks={tasks}
+          setTasks={setTasks}
+          option={option}
+          setOption={setOption}
+        />
 
-      <DragDropContext onDragEnd={handleDragEnd}>
-        <Droppable droppableId="tasks">
-          {(provided) => (
-            <ul
-              className="todo-items"
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-            >
-              {tasks &&
-                tasks.map((task, index) => {
-                  return (
-                    <Draggable
-                      key={task.id}
-                      draggableId={task.id.toString()}
-                      index={index}
-                    >
-                      {(provided) => (
-                        <li
-                          className={
-                            !task.active ? 'todo-item completed' : 'todo-item'
-                          }
-                          data-taskid={task.id}
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                        >
-                          <div className="todo-item-wrapper">
-                            <div className="check" onClick={updateTaskStatus}>
-                              <Check />
-                            </div>
-                            <p>{task.content}</p>
-                          </div>
-                          <div className="cross" onClick={deleteTask}>
-                            <Cross />
-                          </div>
-                        </li>
-                      )}
-                    </Draggable>
-                  );
-                })}
-              {provided.placeholder}
-            </ul>
-          )}
-        </Droppable>
-      </DragDropContext>
-
-      <ul className="todo-options">
-        <li className="items-left">
-          {tasks.reduce((acc, task) => {
-            if (task.active) acc++;
-            return acc;
-          }, 0)}{' '}
-          items left
-        </li>
-        <div>
-          <li
-            className={option === 'all' ? 'active' : ''}
-            onClick={() => setOption('all')}
-          >
-            All
-          </li>
-          <li
-            className={option === 'active' ? 'active' : ''}
-            onClick={() => setOption('active')}
-          >
-            Active
-          </li>
-          <li
-            className={option === 'completed' ? 'active' : ''}
-            onClick={() => setOption('completed')}
-          >
-            Completed
-          </li>
-        </div>
-        <li onClick={clearCompleted}>Clear Completed</li>
-      </ul>
-
-      <footer className="footer">
-        <p>Drag and drop to reorder list</p>
-      </footer>
+        <footer className="footer">
+          <p>Drag and drop to reorder list</p>
+        </footer>
+      </div>
     </div>
   );
 }
