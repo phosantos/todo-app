@@ -2,7 +2,7 @@
 
 ## [ [todo-app-phos.netlify.app](https://todo-app-phos.netlify.app/) ]
 
-To do app com React e localStorage.
+To do app com React, localStorage e React Beautiful Dnd (drag and drop).
 
 - [x] O usuário pode ver um campo `input` no qual ele pode digitar uma tarefa pendente
 - [x] Ao pressionar enter (ou um botão), o usuário pode enviar o item e vê-lo sendo adicionado a uma lista de afazeres
@@ -22,3 +22,4 @@ To do app com React e localStorage.
 - create-react-app
 - CSS Modules
 - LocalStorage
+- [React Beautiful DnD](https://github.com/atlassian/react-beautiful-dnd)
